@@ -2,27 +2,27 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import toast from "react-hot-toast";
 
-const API_URL = "http://localhost:5000/api/pastes";
+const APIURL = "http://localhost:5000/api/pastes";
 
 export const fetchPastes = createAsyncThunk("paste/fetch", async () => {
-  const res = await axios.get(API_URL);
+  const res = await axios.get(APIURL);
   return res.data;
 });
 
 export const addToPastes = createAsyncThunk("paste/add", async (paste) => {
-  const res = await axios.post(API_URL, paste);
+  const res = await axios.post(APIURL, paste);
   toast.success("Paste Created");
   return res.data;
 });
 
 export const updateToPastes = createAsyncThunk("paste/update", async (paste) => {
-  const res = await axios.put(`${API_URL}/${paste._id}`, paste);
+  const res = await axios.put(`${APIURL}/${paste._id}`, paste);
   toast.success("Paste Updated");
   return res.data;
 });
 
 export const removeFromPastes = createAsyncThunk("paste/remove", async (id) => {
-  await axios.delete(`${API_URL}/${id}`);
+  await axios.delete(`${APIURL}/${id}`);
   toast.success("Paste Removed");
   return id;
 });
