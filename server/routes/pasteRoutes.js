@@ -1,11 +1,20 @@
-import express from "express";
-import { getPastes, createPaste, updatePaste, deletePaste } from "../controllers/pasteController.js";
+import express from "express"
+import {
+  getPastes,
+  createPaste,
+  updatePaste,
+  deletePaste,
+  getPasteBySlug,
+  getPasteById,
+} from "../controllers/pasteController.js"
 
-const router = express.Router();
+const router = express.Router()
 
-router.get("/", getPastes);
-router.post("/", createPaste);
-router.put("/:id", updatePaste);
-router.delete("/:id", deletePaste);
+router.get("/", getPastes)
+router.post("/", createPaste)
+router.get("/slug/:slug", getPasteBySlug)
+router.get("/:id", getPasteById)
+router.put("/:id", updatePaste)
+router.delete("/:id", deletePaste)
 
-export default router;
+export default router
