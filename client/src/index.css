@@ -3,3 +3,70 @@
 .backdrop-blur-md {
   backdrop-filter: blur(10px);
 }
+
+/* Updated to Vercel-inspired color palette: pure black background (#000000), white text, subtle grays, blue accent */
+body {
+  background-color: #000000;
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+    "Droid Sans", "Helvetica Neue", sans-serif;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3a3a3a;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4a4a4a;
+}
+
+/* Text selection */
+::selection {
+  background-color: #0070f3;
+  color: #ffffff;
+}
+
+/* Code highlighting with Highlight.js compatible styles */
+.hljs {
+  background: #111111 !important;
+  color: #e0e0e0 !important;
+}
+
+.hljs-attr {
+  color: #9cdcfe;
+}
+.hljs-string {
+  color: #ce9178;
+}
+.hljs-number {
+  color: #b5cea8;
+}
+.hljs-literal {
+  color: #569cd6;
+}
+.hljs-function {
+  color: #dcdcaa;
+}
+.hljs-keyword {
+  color: #569cd6;
+}
+.hljs-comment {
+  color: #6a9955;
+}
+.hljs-title {
+  color: #4ec9b0;
+}
+.hljs-class {
+  color: #4ec9b0;
+}
