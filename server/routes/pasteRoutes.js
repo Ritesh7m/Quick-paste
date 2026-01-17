@@ -10,9 +10,9 @@ import {
 
 const router = express.Router()
 
-router.get("/", getPastes)
+router.get("/", getPastes)              
 router.post("/", createPaste)
-router.get("/slug/:slug", getPasteBySlug)
+router.get("/slug/:slug", getPasteBySlug) 
 router.get("/:id", getPasteById)
 router.put("/:id", updatePaste)
 router.delete("/:id", deletePaste)

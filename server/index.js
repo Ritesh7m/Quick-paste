@@ -12,7 +12,7 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 
-/* ---- MongoDB connection (SERVERLESS SAFE) ---- */
+
 
 let cached = global.mongoose;
 
@@ -27,7 +27,7 @@ async function connectDB() {
 
   if (!cached.promise) {
     cached.promise = mongoose.connect(process.env.MONGO_URI, {
-      bufferCommands: false, // ⛔ disable buffering
+      bufferCommands: false, 
     }).then((mongoose) => {
       console.log("MongoDB Connected");
       return mongoose;
@@ -38,13 +38,13 @@ async function connectDB() {
   return cached.conn;
 }
 
-// ⬅️ VERY IMPORTANT
+
 await connectDB();
 
 /* Routes */
 app.use("/api/pastes", pasteRoutes);
 
-/* Health check */
+
 app.get("/api/health", (req, res) => {
   res.status(200).json({ success: true, message: "API is healthy 🚀" });
 });
