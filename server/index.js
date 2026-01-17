@@ -12,41 +12,40 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 
-
-
+/* Mongo cache */
 let cached = global.mongoose;
-
 if (!cached) {
   cached = global.mongoose = { conn: null, promise: null };
 }
 
 async function connectDB() {
-  if (cached.conn) {
-    return cached.conn;
-  }
+  if (cached.conn) return cached.conn;
 
   if (!cached.promise) {
-    cached.promise = mongoose.connect(process.env.MONGO_URI, {
-      bufferCommands: false, 
-    }).then((mongoose) => {
-      console.log("MongoDB Connected");
-      return mongoose;
-    });
+    cached.promise = mongoose
+      .connect(process.env.MONGO_URI, { bufferCommands: false })
+      .then((mongoose) => {
+        console.log("MongoDB Connected");
+        return mongoose;
+      });
   }
 
   cached.conn = await cached.promise;
   return cached.conn;
 }
 
+/* Connect DB THEN start server */
+const PORT = process.env.PORT || 5000;
 
-await connectDB();
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+});
 
 /* Routes */
 app.use("/api/pastes", pasteRoutes);
 
-
 app.get("/api/health", (req, res) => {
   res.status(200).json({ success: true, message: "API is healthy 🚀" });
 });
-
-export default app;
