@@ -12,30 +12,41 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 
-/* MongoDB connection (cached for serverless) */
-let isConnected = false;
+/* ---- MongoDB connection (SERVERLESS SAFE) ---- */
 
-const connectDB = async () => {
-  if (isConnected) return;
+let cached = global.mongoose;
 
-  try {
-    await mongoose.connect(process.env.MONGO_URI);
-    isConnected = true;
-    console.log("MongoDB Connected");
-  } catch (error) {
-    console.error("MongoDB Connection Error:", error);
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
+
+async function connectDB() {
+  if (cached.conn) {
+    return cached.conn;
   }
-};
 
-connectDB();
+  if (!cached.promise) {
+    cached.promise = mongoose.connect(process.env.MONGO_URI, {
+      bufferCommands: false, // ⛔ disable buffering
+    }).then((mongoose) => {
+      console.log("MongoDB Connected");
+      return mongoose;
+    });
+  }
+
+  cached.conn = await cached.promise;
+  return cached.conn;
+}
+
+// ⬅️ VERY IMPORTANT
+await connectDB();
 
 /* Routes */
 app.use("/api/pastes", pasteRoutes);
 
-/* Health check (VERY IMPORTANT) */
+/* Health check */
 app.get("/api/health", (req, res) => {
   res.status(200).json({ success: true, message: "API is healthy 🚀" });
 });
 
-/* ❌ DO NOT use app.listen() on Vercel */
 export default app;
