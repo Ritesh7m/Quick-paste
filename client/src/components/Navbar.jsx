@@ -1,41 +1,85 @@
 "use client"
 
-import { NavLink } from "react-router-dom"
-import { useNavigate } from "react-router-dom"
+import { useState } from "react"
+import { NavLink, useNavigate } from "react-router-dom"
 
 const Navbar = () => {
   const navigate = useNavigate()
+  const [menuOpen, setMenuOpen] = useState(false)
 
   return (
-    <nav className="fixed top-0 w-full z-50 bg-black border-b border-[#2a2a2a] px-4 md:px-8 py-4 flex items-center justify-between">
-      <button
-        onClick={() => navigate("/")}
-        className="text-lg md:text-2xl font-bold text-white hover:text-[#0070f3] transition-colors duration-200"
-      >
-        QuickPaste
-      </button>
-      <div className="flex gap-4 md:gap-8">
-        <NavLink
-          to="/"
-          className={({ isActive }) =>
-            isActive
-              ? "text-[#0070f3] font-semibold text-sm md:text-base"
-              : "text-[#999999] hover:text-white transition-colors duration-200 text-sm md:text-base"
-          }
+    <nav className="fixed top-0 w-full z-50 bg-[#0a0a0a] border-b border-[#1e1e1e] px-4 md:px-10 py-3.5">
+      <div className="flex items-center justify-between">
+        <button
+          onClick={() => navigate("/")}
+          className="text-white font-bold text-base tracking-tight hover:text-[#0070f3] transition-colors"
         >
-          Home
-        </NavLink>
-        <NavLink
-          to="/paste"
-          className={({ isActive }) =>
-            isActive
-              ? "text-[#0070f3] font-semibold text-sm md:text-base"
-              : "text-[#999999] hover:text-white transition-colors duration-200 text-sm md:text-base"
-          }
+          ⚡ QuickPaste
+        </button>
+
+        {/* Desktop links */}
+        <div className="hidden sm:flex items-center gap-1">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive
+                ? "px-4 py-2 rounded-md bg-[#0070f3] text-white text-sm font-medium"
+                : "px-4 py-2 rounded-md text-[#888] hover:text-white hover:bg-[#1a1a1a] text-sm font-medium transition-colors"
+            }
+          >
+            Create Paste
+          </NavLink>
+          <NavLink
+            to="/paste"
+            className={({ isActive }) =>
+              isActive
+                ? "px-4 py-2 rounded-md bg-[#0070f3] text-white text-sm font-medium"
+                : "px-4 py-2 rounded-md text-[#888] hover:text-white hover:bg-[#1a1a1a] text-sm font-medium transition-colors"
+            }
+          >
+            View Pastes
+          </NavLink>
+        </div>
+
+        {/* Mobile hamburger */}
+        <button
+          className="sm:hidden flex flex-col gap-1.5 p-2"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
         >
-          Pastes
-        </NavLink>
+          <span className={`block w-5 h-0.5 bg-white transition-all ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
+          <span className={`block w-5 h-0.5 bg-white transition-all ${menuOpen ? "opacity-0" : ""}`} />
+          <span className={`block w-5 h-0.5 bg-white transition-all ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
+        </button>
       </div>
+
+      {/* Mobile menu dropdown */}
+      {menuOpen && (
+        <div className="sm:hidden mt-3 pb-3 flex flex-col gap-1 border-t border-[#1e1e1e] pt-3">
+          <NavLink
+            to="/"
+            onClick={() => setMenuOpen(false)}
+            className={({ isActive }) =>
+              isActive
+                ? "px-4 py-2.5 rounded-md bg-[#0070f3] text-white text-sm font-medium"
+                : "px-4 py-2.5 rounded-md text-[#888] hover:text-white hover:bg-[#1a1a1a] text-sm font-medium transition-colors"
+            }
+          >
+            Create Paste
+          </NavLink>
+          <NavLink
+            to="/paste"
+            onClick={() => setMenuOpen(false)}
+            className={({ isActive }) =>
+              isActive
+                ? "px-4 py-2.5 rounded-md bg-[#0070f3] text-white text-sm font-medium"
+                : "px-4 py-2.5 rounded-md text-[#888] hover:text-white hover:bg-[#1a1a1a] text-sm font-medium transition-colors"
+            }
+          >
+            View Pastes
+          </NavLink>
+        </div>
+      )}
     </nav>
   )
 }

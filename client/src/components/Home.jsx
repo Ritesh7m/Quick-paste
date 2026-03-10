@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { useSearchParams } from "react-router-dom"
 import { addToPastes, updateToPastes } from "../redux/pasteSlice"
 
+const LANGUAGES = ["javascript","python","java","cpp","csharp","html","css","sql","bash","json"]
+
 const Home = () => {
   const [activeTab, setActiveTab] = useState("text")
   const [title, setTitle] = useState("")
@@ -33,20 +35,17 @@ const Home = () => {
       alert("Title and content must not be empty.")
       return
     }
-
     const paste = {
       title: title.trim(),
       content: value.trim(),
       language: activeTab === "code" ? language : "text",
       _id: pasteId || undefined,
     }
-
     if (pasteId) {
       dispatch(updateToPastes(paste))
     } else {
       dispatch(addToPastes(paste))
     }
-
     setTitle("")
     setValue("")
     setLanguage("javascript")
@@ -55,73 +54,85 @@ const Home = () => {
   }
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center px-4 py-8 bg-black pt-20 md:pt-24">
-      <div className="w-full max-w-4xl bg-[#111111] border border-[#2a2a2a] shadow-lg rounded-lg p-6 md:p-8">
-        <h1 className="text-2xl md:text-3xl font-semibold text-white mb-8">
-          {pasteId ? "Update Your Paste" : "Create a New Paste"}
-        </h1>
-
-        <div className="flex gap-4 mb-6 border-b border-[#2a2a2a]">
-          <button
-            onClick={() => setActiveTab("text")}
-            className={`px-4 py-2 font-medium transition ${
-              activeTab === "text" ? "text-white border-b-2 border-[#0070f3]" : "text-[#666666] hover:text-white"
-            }`}
-          >
-            Text Paste
-          </button>
-          <button
-            onClick={() => setActiveTab("code")}
-            className={`px-4 py-2 font-medium transition ${
-              activeTab === "code" ? "text-white border-b-2 border-[#0070f3]" : "text-[#666666] hover:text-white"
-            }`}
-          >
-            Code Paste
-          </button>
+    <div className="min-h-screen w-full bg-[#0a0a0a] pt-20 pb-10 px-4">
+      <div className="w-full max-w-3xl mx-auto">
+        <div className="mb-6">
+          <h1 className="text-xl md:text-2xl font-bold text-white">
+            {pasteId ? "Edit Paste" : "Create New Paste"}
+          </h1>
+          <p className="text-[#666] text-sm mt-1">
+            {pasteId ? "Update your existing paste below." : "Add a title, paste your content, and save."}
+          </p>
         </div>
 
-        <div className="flex flex-col gap-4 mb-6">
-          <input
-            className="w-full p-3 rounded-lg bg-[#000000] text-white border border-[#2a2a2a] placeholder-[#666666] focus:outline-none focus:ring-2 focus:ring-[#0070f3] transition"
-            type="text"
-            placeholder="Enter Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <div className="flex flex-col sm:flex-row gap-4">
-            {activeTab === "code" && (
+        <div className="bg-[#111] border border-[#1e1e1e] rounded-xl p-4 md:p-6 flex flex-col gap-5">
+          {/* Title */}
+          <div>
+            <label className="block text-xs font-medium text-[#888] mb-2 uppercase tracking-wider">Title</label>
+            <input
+              className="w-full px-4 py-3 rounded-lg bg-[#0a0a0a] text-white border border-[#2a2a2a] placeholder-[#444] focus:outline-none focus:border-[#0070f3] text-sm transition-colors"
+              type="text"
+              placeholder="Give your paste a name..."
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            />
+          </div>
+
+          {/* Tabs */}
+          <div>
+            <label className="block text-xs font-medium text-[#888] mb-2 uppercase tracking-wider">Type</label>
+            <div className="flex gap-2">
+              {["text", "code"].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`flex-1 sm:flex-none px-4 py-2.5 rounded-lg text-sm font-medium transition-colors capitalize ${
+                    activeTab === tab
+                      ? "bg-[#0070f3] text-white"
+                      : "bg-[#1a1a1a] text-[#888] hover:text-white"
+                  }`}
+                >
+                  {tab === "text" ? "Plain Text" : "Code"}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Language selector */}
+          {activeTab === "code" && (
+            <div>
+              <label className="block text-xs font-medium text-[#888] mb-2 uppercase tracking-wider">Language</label>
               <select
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
-                className="px-4 py-3 rounded-lg bg-[#000000] text-white border border-[#2a2a2a] focus:outline-none focus:ring-2 focus:ring-[#0070f3] transition"
+                className="w-full sm:w-auto px-4 py-3 rounded-lg bg-[#0a0a0a] text-white border border-[#2a2a2a] focus:outline-none focus:border-[#0070f3] text-sm transition-colors"
               >
-                <option value="javascript">JavaScript</option>
-                <option value="python">Python</option>
-                <option value="java">Java</option>
-                <option value="cpp">C++</option>
-                <option value="csharp">C#</option>
-                <option value="html">HTML</option>
-                <option value="css">CSS</option>
-                <option value="sql">SQL</option>
-                <option value="bash">Bash</option>
-                <option value="json">JSON</option>
+                {LANGUAGES.map((lang) => (
+                  <option key={lang} value={lang}>{lang.toUpperCase()}</option>
+                ))}
               </select>
-            )}
-            <button
-              onClick={createPaste}
-              className="w-full sm:w-auto bg-[#0070f3] hover:bg-[#0051d3] text-white font-semibold py-3 px-8 rounded-lg transition duration-200"
-            >
-              {pasteId ? "Update Paste" : "Create Paste"}
-            </button>
-          </div>
-        </div>
+            </div>
+          )}
 
-        <textarea
-          value={value}
-          placeholder="Paste your content here..."
-          onChange={(e) => setValue(e.target.value)}
-          className="w-full h-80 p-4 rounded-lg bg-[#000000] text-white placeholder-[#666666] border border-[#2a2a2a] focus:outline-none focus:ring-2 focus:ring-[#0070f3] resize-none font-mono text-sm transition"
-        />
+          {/* Content */}
+          <div>
+            <label className="block text-xs font-medium text-[#888] mb-2 uppercase tracking-wider">Content</label>
+            <textarea
+              value={value}
+              placeholder="Paste your content here..."
+              onChange={(e) => setValue(e.target.value)}
+              className="w-full h-56 md:h-72 px-4 py-3 rounded-lg bg-[#0a0a0a] text-white placeholder-[#444] border border-[#2a2a2a] focus:outline-none focus:border-[#0070f3] resize-none font-mono text-sm transition-colors"
+            />
+          </div>
+
+          {/* Submit */}
+          <button
+            onClick={createPaste}
+            className="w-full sm:w-auto sm:self-end bg-[#0070f3] hover:bg-[#005ed4] text-white font-semibold py-3 px-8 rounded-lg transition-colors text-sm"
+          >
+            {pasteId ? "Update Paste" : "Save Paste"}
+          </button>
+        </div>
       </div>
     </div>
   )
