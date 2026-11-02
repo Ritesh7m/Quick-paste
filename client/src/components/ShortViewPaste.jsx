@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from "react-redux"
 import { fetchPasteBySlug } from "../redux/pasteSlice"
 import hljs from "highlight.js"
 
-
 const ShortViewPaste = () => {
   const { slug } = useParams()
   const navigate = useNavigate()
@@ -66,7 +65,6 @@ const ShortViewPaste = () => {
           ← Back to pastes
         </button>
 
-
         <div className="bg-surface border border-divider rounded-xl p-4 md:p-6">
           {/* Header */}
           <div className="flex items-start justify-between gap-3 mb-5">
@@ -101,7 +99,6 @@ const ShortViewPaste = () => {
             )}
           </div>
 
-
           <p className="mt-4 text-muted text-xs">
             Created {new Date(currentPaste.createdAt).toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}
           </p>
@@ -110,6 +107,5 @@ const ShortViewPaste = () => {
     </div>
   )
 }
-
 
 export default ShortViewPaste

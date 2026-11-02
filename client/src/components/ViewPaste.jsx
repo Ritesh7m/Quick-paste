@@ -41,7 +41,6 @@ const ViewPaste = () => {
           ← Back to pastes
         </button>
 
-
         <div className="bg-surface border border-divider rounded-xl p-4 md:p-6">
           {/* Header */}
           <div className="flex items-start justify-between gap-3 mb-5">
@@ -65,7 +64,6 @@ const ViewPaste = () => {
             <p className="text-primary font-mono text-xs md:text-sm whitespace-pre-wrap break-words">{paste.content}</p>
           </div>
 
-
           <p className="text-muted text-xs">
             Created {new Date(paste.createdAt).toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}
           </p>
@@ -74,6 +72,5 @@ const ViewPaste = () => {
     </div>
   )
 }
-
 
 export default ViewPaste

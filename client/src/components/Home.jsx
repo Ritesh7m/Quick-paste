@@ -72,7 +72,6 @@ const Home = () => {
           </p>
         </div>
 
-
         <div className="bg-surface border border-divider rounded-xl p-4 md:p-6 flex flex-col gap-5">
           {/* Title */}
           <div>
@@ -149,6 +148,5 @@ const Home = () => {
     </div>
   )
 }
-
 
 export default Home

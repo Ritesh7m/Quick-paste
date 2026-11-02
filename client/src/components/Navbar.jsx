@@ -1,8 +1,6 @@
 "use client"
 
-
 import ThemeToggle from "./ThemeToggle"
-
 
 import { useState } from "react"
 import { NavLink, useNavigate } from "react-router-dom"
@@ -22,7 +20,6 @@ const Navbar = () => {
         >
           ⚡ QuickPaste
         </button>
-
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
@@ -49,7 +46,6 @@ const Navbar = () => {
               View Pastes
             </NavLink>
           </div>
-
 
           {/* Mobile hamburger */}
           <button
@@ -96,6 +92,5 @@ const Navbar = () => {
     </nav>
   )
 }
-
 
 export default Navbar

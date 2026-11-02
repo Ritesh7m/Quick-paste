@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react"
 
-
 const ThemeToggle = () => {
   const [theme, setTheme] = useState(() => document.documentElement.dataset.theme || "dark")
-
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme
@@ -13,7 +11,6 @@ const ThemeToggle = () => {
       // The toggle still works when browser storage is unavailable.
     }
   }, [theme])
-
 
   useEffect(() => {
     const syncTheme = (event) => {
@@ -25,9 +22,7 @@ const ThemeToggle = () => {
     return () => window.removeEventListener("storage", syncTheme)
   }, [])
 
-
   const label = `Switch to ${theme === "dark" ? "light" : "dark"} mode`
-
 
   return (
     <button
@@ -48,6 +43,5 @@ const ThemeToggle = () => {
     </button>
   )
 }
-
 
 export default ThemeToggle
